@@ -1,26 +1,24 @@
-use crate::math::scalar::float::Float;
-use crate::math::scalar::double::Double;
+pub trait ScalarNaturalOps {
+  type Natural: ScalarNaturalOps<Natural = Self::Natural>;
+  
+  fn negation(&self) -> Self::Natural;
+  fn add(&self, rhs: &Self::Natural) -> Self::Natural;
+  fn mul(&self, rhs: &Self::Natural) -> Self::Natural;
+  fn pow(&self, rhs: &Self::Natural) -> Self::Natural;
 
-pub trait ScalarOps {
-  type Element;
-
-  fn negate(&self) -> Self::Element;
-  fn inverse(&self) -> Self::Element;
-  fn add(&self, rhs: &Self::Element) -> Self::Element;
-  fn mul(&self, rhs: &Self::Element) -> Self::Element;
-  fn pow(&self, rhs: &Self::Element) -> Self::Element;
-
-  fn sub(&self, rhs: &Self) -> Self::Element {
-    self.add(&rhs.negate())
-  }
-
-  fn div(&self, rhs: &Self) -> Self::Element {
-    self.mul(&rhs.inverse())
+  fn sub(&self, rhs: &Self::Natural) -> Self::Natural {
+    self.add(&rhs.negation())
   }
 }
 
-pub trait ScalarFloatOps {
-  type Element;
-
-  fn sqrt(&self, rhs: &Self::Element) -> Self::Element;
+pub trait ScalarRealOps: ScalarNaturalOps {
+  type Real: ScalarRealOps<Real = Self::Real>;
+  
+  fn inverse(&self) -> Self::Real;
+  fn mul(&self, rhs: &Self::Real) -> Self::Real;
+  fn sqrt(&self) -> Self::Real;
+  
+  fn div(&self, rhs: &Self::Real) -> Self::Real {
+    ScalarRealOps::mul(self, &rhs.inverse())
+  }
 }
