@@ -11,7 +11,7 @@ mod tests {
       double::ScalarDouble
     },
     vectors::{
-      vector2::Vector2Ops,
+      ops2::Vector2Ops,
       int2::Int2,
       float2::Float2
     }

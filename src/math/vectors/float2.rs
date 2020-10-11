@@ -4,7 +4,10 @@ use crate::math::{
     scalar::ScalarTrait,
     float::ScalarFloat
   },
-  vectors::vector2::*
+  vectors::{
+    vector2::Vector2,
+    ops2::Vector2Ops
+  }
 };
 
 #[derive(Debug, Default, Copy, Clone, PartialEq)]
