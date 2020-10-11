@@ -6,12 +6,12 @@ use super::{
   double::ScalarDouble
 };
 
-#[derive(Debug, Copy, Clone, PartialOrd, PartialEq)]
+#[derive(Debug, Default, Copy, Clone, PartialOrd, PartialEq)]
 pub struct Scalar<T>(pub(crate) T)
   where T: ScalarInner;
 
 pub trait ScalarInner:
-    Debug + Sized + Copy + Clone +
+    Sized + Copy + Clone +
     PartialOrd + PartialEq +
     Neg + Add + Sub + Mul + Div {}
 
@@ -19,9 +19,16 @@ impl ScalarInner for i32 {}
 impl ScalarInner for f32 {}
 impl ScalarInner for f64 {}
 
-pub trait ScalarTrait<T>:
-    From<ScalarInt> + From<ScalarFloat> + From<ScalarDouble>
-  where T: ScalarInner {
-  fn new(value: T) -> Self;
-  fn inner(&self) -> T;
+pub trait ScalarTrait:
+    Default + Sized + Copy +
+    From<ScalarInt> + From<ScalarFloat> + From<ScalarDouble> +
+    Into<ScalarInt> + Into<ScalarFloat> + Into<ScalarDouble> {
+  type Inner: ScalarInner;
+
+  fn zero() -> Self {
+    Self::default()
+  }
+
+  fn new(value: Self::Inner) -> Self;
+  fn inner(&self) -> Self::Inner;
 }

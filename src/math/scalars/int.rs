@@ -1,4 +1,4 @@
-use std::ops::{Neg, Add, Sub, Mul};
+use std::ops::{Neg, Add, Sub, Mul, Div};
 use super::{
   scalar::{Scalar, ScalarTrait},
   ops::ScalarNaturalOps,
@@ -8,7 +8,9 @@ use super::{
 
 pub type ScalarInt = Scalar<i32>;
 
-impl ScalarTrait<i32> for ScalarInt {
+impl ScalarTrait for ScalarInt {
+  type Inner = i32;
+
   fn new(value: i32) -> Self {
     Scalar(value)
   }
@@ -63,5 +65,13 @@ impl Mul for ScalarInt {
 
   fn mul(self, rhs: Self) -> Self::Output {
     ScalarInt::new(self.inner() * rhs.inner())
+  }
+}
+
+impl Div for ScalarInt {
+  type Output = ScalarInt;
+
+  fn div(self, rhs: Self) -> Self::Output {
+    ScalarInt::new(self.inner() / rhs.inner())
   }
 }

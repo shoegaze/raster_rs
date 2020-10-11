@@ -1,60 +1,79 @@
-use std::iter::FromIterator;
+use std::ops::{Add, Sub, Mul, Div};
 use crate::math::{
-  scalar::int::Int,
-  vector::vector::Vector
+  scalars::{
+    scalar::ScalarTrait,
+    int::ScalarInt,
+  },
+  vectors::vector2::*
 };
 
-#[derive(Debug, Copy, Clone, PartialEq)]
-pub struct Int2(Int, Int);
+#[derive(Debug, Default, Copy, Clone, PartialEq)]
+pub struct Int2 {
+  pub(self) x: ScalarInt,
+  pub(self) y: ScalarInt
+}
 
+impl Vector2<ScalarInt> for Int2 {
+  fn new(x: ScalarInt, y: ScalarInt) -> Self {
+    Int2 { x, y }
+  }
 
-impl Int2 {
-  pub(crate) fn new(x: i32, y: i32) -> Self {
-    Int2(Int(x), Int(y))
+  fn x(&self) -> ScalarInt {
+    self.x
+  }
+
+  fn y(&self) -> ScalarInt {
+    self.y
+  }
+
+  fn set_x(&mut self, value: ScalarInt) {
+    self.x = value
+  }
+
+  fn set_y(&mut self, value: ScalarInt) {
+    self.y = value
   }
 }
 
-impl Vector<Int> for Int2 {
-  fn dim(&self) -> usize {
-    2
-  }
-  
-  fn get(&self, i: usize) -> Option<Int> {
-    match i {
-      0 => Some(self.0),
-      1 => Some(self.1),
-      _ => None
-    }
-  }
-  
-  fn set(&mut self, i: usize, value: Int) {
-    match i {
-      0 => self.0 = value,
-      1 => self.1 = value,
-      _ => ()
-    };
+impl Vector2Ops<ScalarInt> for Int2 {}
+
+impl From<(i32, i32)> for Int2 {
+  fn from(pair: (i32, i32)) -> Self {
+    Self::new(
+      ScalarInt::new(pair.0),
+      ScalarInt::new(pair.1)
+    )
   }
 }
 
-// impl IntoIterator for Int2 {
-//   type Item = Int;
-//   type IntoIter = std::vec::IntoIter<Self::Item>;
-//
-//   fn into_iter(self) -> Self::IntoIter {
-//     let mut values = vec![];
-//
-//     for i in 0..self.dim() {
-//       let value = self.get(i).unwrap();
-//       values.push(value);
-//     }
-//
-//     values.into_iter()
-//   }
-// }
+impl Add for Int2 {
+  type Output = Self;
 
-impl FromIterator<Int> for Int2 {
-  fn from_iter<T: IntoIterator<Item = Int>>(iter: T) -> Self {
-    let (x, y) = ();
-    Int2::new()
+  fn add(self, rhs: Self) -> Self::Output {
+    <Self as Vector2Ops<ScalarInt>>::add(&self, &rhs)
+  }
+}
+
+impl Sub for Int2 {
+  type Output = Self;
+
+  fn sub(self, rhs: Self) -> Self::Output {
+    <Self as Vector2Ops<ScalarInt>>::sub(&self, &rhs)
+  }
+}
+
+impl Mul<i32> for Int2 {
+  type Output = Self;
+
+  fn mul(self, rhs: i32) -> Self::Output {
+    <Self as Vector2Ops<ScalarInt>>::mul(&self, &ScalarInt::new(rhs))
+  }
+}
+
+impl Div<i32> for Int2 {
+  type Output = Self;
+
+  fn div(self, rhs: i32) -> Self::Output {
+    <Self as Vector2Ops<ScalarInt>>::div(&self, &ScalarInt::new(rhs))
   }
 }

@@ -8,7 +8,9 @@ use super::{
 
 pub type ScalarDouble = Scalar<f64>;
 
-impl ScalarTrait<f64> for ScalarDouble {
+impl ScalarTrait for ScalarDouble {
+  type Inner = f64;
+
   fn new(value: f64) -> Self {
     Scalar(value)
   }
@@ -20,15 +22,16 @@ impl ScalarTrait<f64> for ScalarDouble {
 
 impl From<ScalarInt> for ScalarDouble {
   fn from(scalar: ScalarInt) -> Self {
-    ScalarDouble::new(scalar.inner() as f64)
+    ScalarDouble::new(f64::from(scalar.inner()))
   }
 }
 
 impl From<ScalarFloat> for ScalarDouble {
   fn from(scalar: ScalarFloat) -> Self {
-    ScalarDouble::new(scalar.inner() as f64)
+    ScalarDouble::new(f64::from(scalar.inner()))
   }
 }
+
 impl ScalarNaturalOps for ScalarDouble {
   type Output = ScalarDouble;
 }
@@ -68,7 +71,7 @@ impl Mul for ScalarDouble {
 impl ScalarRealOps for ScalarDouble {
   type Output = ScalarDouble;
 
-  fn pow(&self, rhs: Self) -> <Self as ScalarRealOps>::Output {
+  fn powf(&self, rhs: Self) -> <Self as ScalarRealOps>::Output {
     ScalarDouble::new(self.inner().powf(rhs.inner()))
   }
 

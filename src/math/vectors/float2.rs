@@ -1,53 +1,79 @@
+use std::ops::{Add, Sub, Mul, Div};
 use crate::math::{
-  scalar::float::Float,
-  vector::vector::Vector
+  scalars::{
+    scalar::ScalarTrait,
+    float::ScalarFloat
+  },
+  vectors::vector2::*
 };
 
+#[derive(Debug, Default, Copy, Clone, PartialEq)]
+pub struct Float2 {
+  pub(self) x: ScalarFloat,
+  pub(self) y: ScalarFloat
+}
 
-#[derive(Debug, Copy, Clone)]
-pub struct Float2(Float, Float);
+impl Vector2<ScalarFloat> for Float2 {
+  fn new(x: ScalarFloat, y: ScalarFloat) -> Self {
+    Float2 { x, y }
+  }
 
+  fn x(&self) -> ScalarFloat {
+    self.x
+  }
 
-impl Float2 {
-  pub(crate) fn new(x: f32, y: f32) -> Self {
-    Float2(Float(x), Float(y))
+  fn y(&self) -> ScalarFloat {
+    self.y
+  }
+
+  fn set_x(&mut self, value: ScalarFloat) {
+    self.x = value
+  }
+
+  fn set_y(&mut self, value: ScalarFloat) {
+    self.y = value
   }
 }
 
-impl Vector<Float> for Float2 {
-  fn dim(&self) -> usize {
-    2
-  }
-  
-  fn get(&self, i: usize) -> Option<Float> {
-    match i {
-      0 => Some(self.0),
-      1 => Some(self.1),
-      _ => None
-    }
-  }
-  
-  fn set(&mut self, i: usize, value: Float) {
-    match i {
-      0 => self.0 = value,
-      1 => self.1 = value,
-      _ => ()
-    };
+impl Vector2Ops<ScalarFloat> for Float2 {}
+
+impl From<(f32, f32)> for Float2 {
+  fn from(pair: (f32, f32)) -> Self {
+    Self::new(
+      ScalarFloat::new(pair.0),
+      ScalarFloat::new(pair.1)
+    )
   }
 }
 
-impl IntoIterator for Float2 {
-  type Item = Float;
-  type IntoIter = std::vec::IntoIter<Self::Item>;
-  
-  fn into_iter(self) -> Self::IntoIter {
-    let mut values = vec![];
-    
-    for i in 0..self.dim() {
-      let value = self.get(i).unwrap();
-      values.push(value);
-    }
-    
-    values.into_iter()
+impl Add for Float2 {
+  type Output = Self;
+
+  fn add(self, rhs: Self) -> Self::Output {
+    <Self as Vector2Ops<ScalarFloat>>::add(&self, &rhs)
+  }
+}
+
+impl Sub for Float2 {
+  type Output = Self;
+
+  fn sub(self, rhs: Self) -> Self::Output {
+    <Self as Vector2Ops<ScalarFloat>>::sub(&self, &rhs)
+  }
+}
+
+impl Mul<f32> for Float2 {
+  type Output = Self;
+
+  fn mul(self, rhs: f32) -> Self::Output {
+    <Self as Vector2Ops<ScalarFloat>>::mul(&self, &ScalarFloat::new(rhs))
+  }
+}
+
+impl Div<f32> for Float2 {
+  type Output = Self;
+
+  fn div(self, rhs: f32) -> Self::Output {
+    <Self as Vector2Ops<ScalarFloat>>::div(&self, &ScalarFloat::new(rhs))
   }
 }

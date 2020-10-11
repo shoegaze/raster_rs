@@ -8,7 +8,9 @@ use super::{
 
 pub type ScalarFloat = Scalar<f32>;
 
-impl ScalarTrait<f32> for ScalarFloat {
+impl ScalarTrait for ScalarFloat {
+  type Inner = f32;
+
   fn new(value: f32) -> Self {
     Scalar(value)
   }
@@ -69,7 +71,7 @@ impl Mul for ScalarFloat {
 impl ScalarRealOps for ScalarFloat {
   type Output = ScalarFloat;
 
-  fn pow(&self, rhs: Self) -> <Self as ScalarRealOps>::Output {
+  fn powf(&self, rhs: Self) -> <Self as ScalarRealOps>::Output {
     ScalarFloat::new(self.inner().powf(rhs.inner()))
   }
 
