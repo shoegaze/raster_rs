@@ -13,10 +13,10 @@ mod tests {
     vectors::{
       ops2::Vector2Ops,
       int2::Int2,
-      float2::Float2
+      float2::Float2,
+      double2::Double2
     }
   };
-  use crate::math::vectors::double2::Double2;
 
   fn approx_eq_f32(lhs: f32, rhs: f32) -> bool {
     use std::f32::EPSILON;
