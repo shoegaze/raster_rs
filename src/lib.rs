@@ -14,7 +14,9 @@ mod tests {
       ops2::Vector2Ops,
       int2::Int2,
       float2::Float2,
-      double2::Double2
+      double2::Double2,
+      ops3::Vector3Ops,
+      float3::Float3
     }
   };
 
@@ -253,5 +255,13 @@ mod tests {
     let len = (x*x + y*y) as f64;
 
     assert_eq!(v2d1.len().inner(), len.sqrt());
+  }
+
+  #[test]
+  fn vector3_cross() {
+    let v1f3 = Float3::from((2.0, 3.0, 4.0));
+    let v2f3 = Float3::from((5.0, 6.0, 7.0));
+
+    assert_eq!(v1f3.cross(&v2f3), Float3::from((-3.0, 6.0, -3.0)));
   }
 }
