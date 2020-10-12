@@ -56,6 +56,14 @@ pub(crate) trait Vector3Ops<S>
     prod_x + prod_y + prod_z
   }
 
+  fn cross(&self, rhs: &Self) -> Self {
+    let x = self.y() * rhs.z() - self.z() * rhs.y();
+    let y = self.z() * rhs.x() - self.x() * rhs.z();
+    let z = self.x() * rhs.y() - self.y() * rhs.x();
+
+    Self::new(x, y, z)
+  }
+
   fn len_2(&self) -> S {
     self.dot(self)
   }
