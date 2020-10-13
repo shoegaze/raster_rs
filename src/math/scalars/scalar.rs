@@ -1,4 +1,3 @@
-use std::fmt::Debug;
 use std::ops::{Neg, Add, Sub, Mul, Div};
 use super::{
   int::ScalarInt,
