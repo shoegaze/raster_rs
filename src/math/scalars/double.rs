@@ -11,6 +11,10 @@ pub type ScalarDouble = Scalar<f64>;
 impl ScalarTrait for ScalarDouble {
   type Inner = f64;
 
+  fn one() -> Self {
+    Self::new(1.0)
+  }
+
   fn new(value: f64) -> Self {
     Scalar(value)
   }

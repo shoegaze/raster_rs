@@ -28,6 +28,8 @@ pub trait ScalarTrait:
     Self::default()
   }
 
+  fn one() -> Self;
+
   fn new(value: Self::Inner) -> Self;
   fn inner(&self) -> Self::Inner;
 }

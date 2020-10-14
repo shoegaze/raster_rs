@@ -11,6 +11,10 @@ pub type ScalarInt = Scalar<i32>;
 impl ScalarTrait for ScalarInt {
   type Inner = i32;
 
+  fn one() -> Self {
+    Self::new(1)
+  }
+
   fn new(value: i32) -> Self {
     Scalar(value)
   }

@@ -11,6 +11,10 @@ pub type ScalarFloat = Scalar<f32>;
 impl ScalarTrait for ScalarFloat {
   type Inner = f32;
 
+  fn one() -> Self {
+    Self::new(1.0)
+  }
+
   fn new(value: f32) -> Self {
     Scalar(value)
   }
